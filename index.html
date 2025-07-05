@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANDRAK SHOP Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            background-image: url('https://i.top4top.io/p_3472ze92g1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .welcome-screen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .welcome-screen p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #f8f9fa;
+        }
+
+        .logo-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 5px solid #ff6b6b;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .payment-screen {
+            display: none;
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .payment-header h2 {
+            font-size: 2rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .payment-method {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .payment-method:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #ff6b6b;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .payment-method img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .payment-method p {
+            font-weight: bold;
+            color: white;
+        }
+
+        .payment-details {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .payment-details.active {
+            display: block;
+        }
+
+        .payment-info {
+            margin-bottom: 15px;
+        }
+
+        .payment-info h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .payment-number {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            word-break: break-all;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .qris-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .qris-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid #ff6b6b;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: #ff5252;
+            text-decoration: underline;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+
+        .contact-info a {
+            color: #ff6b6b;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #ff5252;
+            text-decoration: underline;
+        }
+
+        /* Animation for payment methods */
+        .payment-method:nth-child(1) { animation-delay: 0.1s; }
+        .payment-method:nth-child(2) { animation-delay: 0.2s; }
+        .payment-method:nth-child(3) { animation-delay: 0.3s; }
+        .payment-method:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .welcome-screen h1 {
+                font-size: 2rem;
+            }
+
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-container {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="logo-container" id="logoContainer">
+                <img src="https://c.top4top.io/p_34712vxu01.jpg" alt="BANDRAK SHOP Logo">
+            </div>
+            <h1>WELCOME TO PAYMENT</h1>
+            <p>Click the logo to continue to payment methods</p>
+        </div>
+
+        <!-- Payment Screen -->
+        <div class="payment-screen" id="paymentScreen">
+            <div class="payment-header">
+                <h2>Select Payment Method</h2>
+                <p>Choose your preferred payment option</p>
+            </div>
+
+            <div class="payment-methods">
+                <div class="payment-method" data-method="dana">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_DANA.svg" alt="DANA">
+                    <p>DANA</p>
+                </div>
+                <div class="payment-method" data-method="ovo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO">
+                    <p>OVO</p>
+                </div>
+                <div class="payment-method" data-method="gopay">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay">
+                    <p>GoPay</p>
+                </div>
+                <div class="payment-method" data-method="qris">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QRIS">
+                    <p>QRIS</p>
+                </div>
+            </div>
+
+            <!-- DANA Payment Details -->
+            <div class="payment-details" id="danaDetails">
+                <div class="payment-info">
+                    <h3>DANA Payment</h3>
+                    <p>Send payment to the following DANA account:</p>
+                    <div class="payment-number">085773652775</div>
+                    <p>Atas nama: <strong>indra Gunawan</strong></p>
+                    <button class="copy-btn" data-number="085773652775">Copy Number</button>
+                </div>
+                <a href="#" class="back-btn">Back to Payment Methods</a>
+            </div>
+
+            <!-- OVO Payment Details -->
+            <div class="payment-details" id="ovoDetails">
+                <div class="payment-info">
+                    <h3>OVO Payment</h3>
+                    <p>Send payment to the following OVO account:</p>
+                    <div class="payment-number">0895406196907</div>
+                    <p>Atas nama: <strong>indra Gunawan</strong></p>
+                    <button class="copy-btn" data-number="0895406196907">Copy Number</button>
+                </div>
+                <a href="#" class="back-btn">Back to Payment Methods</a>
+            </div>
+
+            <!-- GoPay Payment Details -->
+            <div class="payment-details" id="gopayDetails">
+                <div class="payment-info">
+                    <h3>GoPay Payment</h3>
+                    <p>Send payment to the following GoPay account:</p>
+                    <div class="payment-number">085133499437</div>
+                    <p>Atas nama: <strong>indra Gunawan</strong></p>
+                    <button class="copy-btn" data-number="085133499437">Copy Number</button>
+                </div>
+                <a href="#" class="back-btn">Back to Payment Methods</a>
+            </div>
+
+            <!-- QRIS Payment Details -->
+            <div class="payment-details" id="qrisDetails">
+                <div class="payment-info">
+                    <h3>QRIS Payment</h3>
+                    <p>Scan the following QR code to make payment:</p>
+                    <div class="qris-container">
+                        <img src="https://j.top4top.io/p_34713xwlx1.jpg" alt="QRIS Code">
+                    </div>
+                    <p>Atas nama: <strong>bandrak store</strong></p>
+                </div>
+                <a href="#" class="back-btn">Back to Payment Methods</a>
+            </div>
+
+            <div class="contact-info">
+                Need help? Contact us at <a href="https://wa.me/+62895406196907" target="_blank">BANDRAK SHOP</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const paymentScreen = document.getElementById('paymentScreen');
+            const logoContainer = document.getElementById('logoContainer');
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const backButtons = document.querySelectorAll('.back-btn');
+            const copyButtons = document.querySelectorAll('.copy-btn');
+
+            // Handle logo click to show payment screen
+            logoContainer.addEventListener('click', function() {
+                welcomeScreen.style.display = 'none';
+                paymentScreen.style.display = 'block';
+                
+                // Add animation to payment methods
+                paymentMethods.forEach((method, index) => {
+                    method.style.animation = `fadeIn 0.5s ease ${index * 0.1}s forwards`;
+                    method.style.opacity = 0;
+                });
+            });
+
+            // Handle payment method clicks
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    const methodType = this.getAttribute('data-method');
+                    document.querySelectorAll('.payment-details').forEach(detail => {
+                        detail.classList.remove('active');
+                    });
+                    document.getElementById(`${methodType}Details`).classList.add('active');
+                });
+            });
+
+            // Handle back buttons
+            backButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.payment-details').forEach(detail => {
+                        detail.classList.remove('active');
+                    });
+                });
+            });
+
+            // Handle copy buttons
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const number = this.getAttribute('data-number');
+                    navigator.clipboard.writeText(number).then(() => {
+                        this.textContent = 'Copied!';
+                        setTimeout(() => {
+                            this.textContent = 'Copy Number';
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
